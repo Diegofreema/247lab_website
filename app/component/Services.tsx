@@ -8,22 +8,22 @@ interface Props {}
 
 const array = [
   {
-    icon: <FlaskConical />,
+    icon: <FlaskConical color="white" />,
     text: 'Complete Blood Test, Blood Chemistry Panel, Lipid Profile, Blood Glucose Test Blood Type and RH Factor',
     title: 'Blood Test',
   },
   {
-    icon: <Dna />,
+    icon: <Dna color="white" />,
     text: 'Genetic Sequencing, Carrier Screening, Genetic Predisposition Testing',
     title: 'Genetic Testing',
   },
   {
-    icon: <Ambulance />,
+    icon: <Ambulance color="white" />,
     text: 'Routine Urinalysis, Urine Culture, Urine Drug Screening',
     title: 'Urinalysis',
   },
   {
-    icon: <Shield />,
+    icon: <Shield color="white" />,
     text: 'Bacteria Culture & sensitivity, Fungal Culture, Parasitology Examination',
     title: 'Microbiology Test',
   },
@@ -58,14 +58,30 @@ const Left = () => {
         }}
         viewport={{ once: true }}
       >
-        <Text fontSize={'sm'} fontWeight={'bold'} color={colors.green}>
+        <Text
+          fontSize={'sm'}
+          fontFamily={'var(--font-rubik)'}
+          fontWeight={'bold'}
+          color={colors.green}
+        >
           Services
         </Text>
 
-        <Text fontSize={'3xl'} mt={2} fontWeight={'bold'} color={colors.black}>
+        <Text
+          fontSize={'3xl'}
+          mt={2}
+          fontFamily={'var(--font-rubik)'}
+          fontWeight={'bold'}
+          color={colors.black}
+        >
           Test Categories
         </Text>
-        <Text fontSize={'md'} mt={2} color={colors.black}>
+        <Text
+          fontSize={'md'}
+          mt={2}
+          fontFamily={'var(--font-rubik)'}
+          color={colors.black}
+        >
           Explore our wide lab test range, including blood work, genetics, and
           imaging. Get accurate results fast, ensuring your well-being. Book now
           for peace of mind.
@@ -138,10 +154,20 @@ const ItemCard = ({
           {Icon}
         </Box>
         <Box>
-          <Text fontWeight={'bold'} fontSize={'md'} textColor={colors.black}>
+          <Text
+            fontFamily={'var(--font-rubik)'}
+            fontWeight={'bold'}
+            fontSize={'md'}
+            textColor={colors.black}
+          >
             {title}
           </Text>
-          <Text fontSize={'sm'} fontWeight={'500'} color={colors.black}>
+          <Text
+            fontFamily={'var(--font-rubik)'}
+            fontSize={'sm'}
+            fontWeight={'500'}
+            color={colors.black}
+          >
             {text}
           </Text>
         </Box>

@@ -10,10 +10,12 @@ import { BackgroundImage } from './component/BackgroundImage';
 import Transition from '@/components/ui/Transition';
 import { Websites } from './component/Websites';
 import { ContactForm } from './component/ContactForm';
+import { ScrollIndicator } from '@/components/ui/scrollIndicator';
 
 export default function Home() {
   return (
     <Wrapper>
+      <ScrollIndicator />
       <Transition />
       <Hero />
       <Choose />

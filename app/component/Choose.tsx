@@ -61,6 +61,7 @@ export const Choose = ({}: Props) => {
               }}
               isRound={true}
               bg={colors.green}
+              color="white"
               aria-label="icon"
               icon={Icon}
             />

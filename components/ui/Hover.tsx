@@ -20,7 +20,7 @@ export const HoverEffect = ({
   return (
     <div
       className={cn(
-        'grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3  mt-10  py-10',
+        'grid grid-cols-1 md:grid-cols-2  w-full  lg:grid-cols-3  mt-10  py-10',
         className
       )}
     >
@@ -93,7 +93,7 @@ export const Card = ({
       }}
       viewport={{ once: true }}
       className={cn(
-        'rounded-2xl h-full w-full p-4 group overflow-hidden shadow-md shadow-black bg-[#009A51] border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20',
+        'rounded-2xl h-full w-full p-4 group min-h-[200px] overflow-hidden shadow-md shadow-black bg-[#009A51] border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20',
         className
       )}
     >
@@ -115,7 +115,7 @@ export const CardTitle = ({
   return (
     <h4
       className={cn(
-        'text-[#fff] font-bold tracking-wide text-center mt-4',
+        'text-[#fff] font-[var(--font-rubik)]  tracking-wide text-center mt-4',
         className
       )}
     >

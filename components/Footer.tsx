@@ -94,7 +94,7 @@ export const Footer = ({}: Props) => {
       whileInView={{
         y: 0,
         opacity: 1,
-        transition: { duration: 0.5, type: 'spring', damping: 7 },
+        transition: { duration: 0.5, type: 'tween', damping: 7 },
       }}
       viewport={{ once: true }}
       columns={{ base: 1, md: 4 }}
@@ -106,10 +106,15 @@ export const Footer = ({}: Props) => {
     >
       {footerLinks.map((link) => (
         <Flex flexDirection="column" key={link.title} gap={4}>
-          <Heading size="md" textColor={colors.green}>
+          <Heading
+            size="md"
+            fontWeight={'bold'}
+            fontFamily={'var(--font-rubik)'}
+            textColor={colors.green}
+          >
             {link.title}
           </Heading>
-          <Box display="flex" flexDirection="column" gap={2}>
+          <Box display="flex" flexDirection="column" gap={3}>
             {link.subLinks.map((subLink) => (
               <Flex
                 as={motion.div}
@@ -124,6 +129,7 @@ export const Footer = ({}: Props) => {
                 {subLink?.icon && subLink?.icon}
                 <Link key={subLink.title} href={subLink.link} target="_blank">
                   <Text
+                    fontSize={13}
                     fontWeight={'400'}
                     fontFamily={'var(--font-rubik)'}
                     textDecoration={'underline'}

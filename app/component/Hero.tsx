@@ -41,6 +41,7 @@ export const Hero = ({}: Props) => {
               as="h1"
               textColor={'black'}
               fontSize={{ base: '4xl', md: '5xl' }}
+              fontFamily={'var(--font-rubik)'}
             >
               <Highlight
                 query={['Medical', 'Lab']}
@@ -49,7 +50,7 @@ export const Hero = ({}: Props) => {
                 Get Instant Medical Lab Services at your Finger Tips
               </Highlight>
             </Heading>
-            <MyText fontWeight={'500'}>
+            <MyText fontWeight={'500'} fontFamily={'var(--font-rubik)'}>
               247Doctor Africa’s Premium Virtual Consultation Service, We are
               available to speak with you 24/7, Our team of fully qualified and
               trusted Doctors, Pharmacists, Alternative Healthcare Practitioners

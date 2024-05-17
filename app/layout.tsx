@@ -11,6 +11,7 @@ import { FloatingNavbar } from '@/components/ui/Navabar';
 import { ModalProvider } from './ModalProvider';
 import MobileNav from './component/MobileNav';
 import { FloatingBtn } from '@/components/ui/floatingBtn';
+import { ScrollIndicator } from '@/components/ui/scrollIndicator';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
