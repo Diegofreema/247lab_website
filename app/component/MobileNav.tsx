@@ -62,6 +62,10 @@ const navItems = [
 ];
 const MobileNav = ({ isOpen, onClose }: Props) => {
   const { onOpen } = useOpen();
+  const onLogin = () => {
+    onClose();
+    onOpen();
+  };
   const quote: Variants = {
     initial: {
       opacity: 0,
@@ -159,7 +163,12 @@ const MobileNav = ({ isOpen, onClose }: Props) => {
         </DrawerBody>
 
         <DrawerFooter>
-          <Button onClick={onOpen} bg={'white'} color={colors.green} w={'100%'}>
+          <Button
+            onClick={onLogin}
+            bg={'white'}
+            color={colors.green}
+            w={'100%'}
+          >
             Login
           </Button>
         </DrawerFooter>
