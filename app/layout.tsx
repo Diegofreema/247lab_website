@@ -6,6 +6,7 @@ import { fonts } from './font';
 import { Header } from './component/Header';
 import { ViewTransitions } from 'next-view-transitions';
 import cn from 'classnames';
+import { Footer } from '@/components/Footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -21,11 +22,13 @@ export default function RootLayout({
   return (
     <ViewTransitions>
       <html lang="en">
-        <body className={cn('bg-white', fonts.rubik.variable)}>
+        <body
+          className={cn('bg-white overflow-x-hidden', fonts.rubik.variable)}
+        >
           <Providers>
             <Header />
-
             {children}
+            <Footer />
           </Providers>
         </body>
       </html>

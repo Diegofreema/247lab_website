@@ -31,6 +31,7 @@ export const Hero = ({}: Props) => {
               bounce: true,
               type: 'spring',
               damping: 7,
+              delay: 0.7,
             },
           }}
           viewport={{ once: true }}
@@ -92,6 +93,7 @@ const Right = () => {
           bounce: true,
           type: 'spring',
           damping: 7,
+          delay: 0.7,
         },
       }}
       viewport={{ once: true }}

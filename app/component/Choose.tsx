@@ -32,7 +32,7 @@ const cardsArray = [
 ];
 export const Choose = ({}: Props) => {
   return (
-    <SimpleGrid pb={20}>
+    <SimpleGrid pb={20} pt={'100px'} id="about">
       <Intro intro="Why choose us?" />
       <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} mt={10} gap={10}>
         {cardsArray.map(({ icon: Icon, text, title }, index) => (

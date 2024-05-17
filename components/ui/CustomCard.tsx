@@ -15,10 +15,12 @@ type Props = {
   whileInView?: VariantLabels | TargetAndTransition;
   finalIndex?: number;
   initial?: boolean | VariantLabels;
+  active?: boolean;
 };
 
 export const CustomCard = ({
   index,
+  active,
   text,
   title,
   children,
@@ -39,8 +41,10 @@ export const CustomCard = ({
   // @ts-ignore
   initial = { opacity: 0, y: 100 },
 }: Props): JSX.Element => {
+  const textColor = active ? '#fff' : '#000';
   return (
     <Card
+      transform={active ? 'translateY(-20px)' : 'translateY(0)'}
       as={motion.div}
       initial={initial}
       whileInView={whileInView}

@@ -1,37 +1,43 @@
 'use client';
 
 import { Intro } from '@/components/ui/Intro';
-import { IconButton, SimpleGrid } from '@chakra-ui/react';
-import { useEffect, useRef } from 'react';
-import { register } from 'swiper/element';
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
+  IconButton,
+  SimpleGrid,
+  Text,
+  Box,
+  Flex,
+  Image,
+} from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { register } from 'swiper/element';
 import { CircleUser, FlaskConical, MonitorCheck } from 'lucide-react';
 import { CustomCard } from '@/components/ui/CustomCard';
 import { colors } from '@/constants';
+import { Variants, motion } from 'framer-motion';
 
 register();
 interface Props {}
 
 const arr = [
   {
-    title: 'Booking Appointment',
-    text: 'Create a user account and click BOOK APPOINTMENT to select the required Laboratory Test',
+    title: 'Sign Up for Free',
+    text: 'Create a free account and get started by choosing the best time that suites your Schedule',
     icon: <CircleUser />,
   },
   {
-    title: 'Prepare for Your Test',
-    text: 'If you have elected for home service, our phlebotomist will get to you, otherwise visit our Laboratory to take the test.',
+    title: 'Book Service',
+    text: 'Create a free account and get started by choosing the best time that suites your Schedule',
     icon: <FlaskConical />,
   },
   {
-    title: 'Get Test Result',
-    text: 'Your Test Result will be mailed to you in addition to the hard copy you receive at our Laboratory.',
+    title: 'Pay for selected service',
+    text: 'Create a free account and get started by choosing the best time that suites your Schedule',
+    icon: <MonitorCheck />,
+  },
+  {
+    title: 'View Booked Service',
+    text: 'Create a free account and get started by choosing the best time that suites your Schedule',
     icon: <MonitorCheck />,
   },
 ];
@@ -46,29 +52,96 @@ export const Works = ({}: Props) => {
 };
 
 const CardSlider = () => {
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveCardIndex((prev) => {
+        if (prev === arr.length - 1) {
+          return 0;
+        }
+        return prev + 1;
+      });
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [activeCardIndex]);
+
+  const variants: Variants = {
+    open: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.5,
+        type: 'spring',
+        damping: 7,
+        ease: 'easeIn',
+        bounce: true,
+      },
+    },
+
+    closed: {
+      opacity: 0,
+      x: -100,
+      transition: {
+        duration: 0.5,
+        type: 'spring',
+        damping: 7,
+        ease: 'easeIn',
+        bounce: true,
+      },
+    },
+  };
   return (
-    <Carousel className="mt-[30px]">
-      <CarouselContent>
-        {arr.map(({ title, text, icon: Icon }, index) => (
-          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-            <CustomCard title={title} text={text}>
-              <IconButton
-                _groupHover={{
-                  color: colors.green,
-                  transition: `all ${0.3}s linear`,
-                  bg: 'white',
-                }}
-                isRound={true}
-                bg={colors.green}
-                aria-label="icon"
-                icon={Icon}
-              />
-            </CustomCard>
-          </CarouselItem>
+    <>
+      <SimpleGrid
+        hideBelow={'md'}
+        columns={{ base: 1, md: 4 }}
+        gap={10}
+        mt={10}
+        alignItems="center"
+        justifyContent="center"
+      >
+        {arr.map((_, index) => (
+          <Flex
+            as={motion.div}
+            variants={variants}
+            initial="closed"
+            whileInView={activeCardIndex === index ? 'open' : 'closed'}
+            key={index}
+            alignItems={'center'}
+            gap={5}
+            justifyContent={'center'}
+          >
+            <Text key={index} color={colors.green} fontWeight={'bold'}>
+              Step {index + 1}
+            </Text>
+            <Image alt="arrow" src="/arrow.png" width={50} />
+          </Flex>
         ))}
-      </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
-    </Carousel>
+      </SimpleGrid>
+      <SimpleGrid columns={{ base: 1, md: 4 }} gap={10} mt={10}>
+        {arr.map(({ title, text, icon: Icon }, index) => (
+          <CustomCard
+            title={title}
+            text={text}
+            key={index}
+            active={activeCardIndex === index}
+            index={index}
+          >
+            <IconButton
+              _groupHover={{
+                color: colors.green,
+                transition: `all ${0.3}s linear`,
+                bg: 'white',
+              }}
+              isRound={true}
+              bg={activeCardIndex === index ? 'white' : colors.green}
+              aria-label="icon"
+              color={activeCardIndex === index ? colors.green : 'white'}
+              icon={Icon}
+            />
+          </CustomCard>
+        ))}
+      </SimpleGrid>
+    </>
   );
 };
