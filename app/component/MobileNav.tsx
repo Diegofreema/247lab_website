@@ -62,39 +62,31 @@ const navItems = [
 ];
 const MobileNav = ({ isOpen, onClose }: Props) => {
   const { onOpen } = useOpen();
-  const variants: Variants = {
-    open: {
-      scale: 1,
-      opacity: 1,
-      transformOrigin: 'top-right',
-      transition: {
-        duration: 0.5,
-        type: 'spring',
-        stiffness: 400,
-        damping: 40,
-        restDelta: 0.001,
-        when: 'beforeChildren',
-        staggerChildren: 0.3,
-      },
-    },
-    closed: {
+  const quote: Variants = {
+    initial: {
       opacity: 0,
-      scale: 0.5,
-      transformOrigin: 'top-right',
+    },
+    animate: {
+      opacity: 1,
       transition: {
-        duration: 0.5,
-        type: 'spring',
-        stiffness: 400,
-        damping: 40,
-        restDelta: 0.001,
-        when: 'afterChildren',
+        delay: 0.5,
+        staggerChildren: 0.06,
       },
     },
   };
-
-  const itemVariants: Variants = {
-    visible: { opacity: 1, y: 0 },
-    hidden: { opacity: 0, y: 20 },
+  const singleWord: Variants = {
+    initial: {
+      opacity: 0,
+      y: 50,
+    },
+    animate: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 1,
+        delay: i * 0.1,
+      },
+    }),
   };
 
   return (
@@ -105,68 +97,73 @@ const MobileNav = ({ isOpen, onClose }: Props) => {
       onClose={onClose}
     >
       <DrawerOverlay />
-      <AnimatePresence>
-        <DrawerContent
-          as={motion.div}
-          variants={variants}
-          initial="closed"
-          animate={isOpen ? 'open' : 'closed'}
-          exit={'closed'}
-          bg={colors.green}
-          h={'100vh'}
-        >
-          <DrawerCloseButton color="white" />
 
-          <DrawerBody
+      <DrawerContent bg={colors.green} h={'100vh'}>
+        <DrawerCloseButton color="white" />
+
+        <DrawerBody
+          height={'100%'}
+          display={'flex'}
+          flexDirection={'column'}
+          gap={4}
+        >
+          {/* <AnimatePresence> */}
+          <Flex
+            // as={motion.div}
+            // variants={variants}
+            // initial="closed"
+            // animate={isOpen ? 'open' : 'closed'}
+            // exit={'closed'}
             height={'100%'}
-            display={'flex'}
             flexDirection={'column'}
             gap={4}
+            justifyContent={'center'}
+            alignItems={'center'}
           >
-            <Flex
-              height={'100%'}
-              flexDirection={'column'}
-              gap={4}
-              justifyContent={'center'}
-              alignItems={'center'}
-            >
-              {navItems.map((item, index) => (
-                <MotionLink
-                  variants={itemVariants}
-                  href={item.link}
-                  key={index}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onClose();
-                  }}
-                >
-                  <Flex alignItems={'center'} gap={2}>
-                    {item.icon}
-                    <Text
-                      color={'white'}
-                      fontFamily={'var(--font-rubik)'}
-                      ml={2}
-                    >
-                      {item.name}
-                    </Text>
-                  </Flex>
-                </MotionLink>
-              ))}
-            </Flex>
-          </DrawerBody>
+            {navItems.map((item, index) => (
+              <Link
+                href={item.link}
+                key={index}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose();
+                }}
+              >
+                <Flex alignItems={'center'} gap={2}>
+                  {/* {item.icon} */}
+                  <Text
+                    as={motion.p}
+                    variants={quote}
+                    initial="initial"
+                    animate="animate"
+                    color={'white'}
+                    fontFamily={'var(--font-rubik)'}
+                    ml={2}
+                  >
+                    {item.name.split('').map((letter, index) => (
+                      <motion.span
+                        custom={index}
+                        key={index}
+                        variants={singleWord}
+                        className="inline-block"
+                      >
+                        {letter}&nbsp;
+                      </motion.span>
+                    ))}
+                  </Text>
+                </Flex>
+              </Link>
+            ))}
+          </Flex>
+          {/* </AnimatePresence> */}
+        </DrawerBody>
 
-          <DrawerFooter>
-            <Button
-              onClick={onOpen}
-              bg={'white'}
-              color={colors.green}
-              w={'100%'}
-            >
-              Login
-            </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </AnimatePresence>
+        <DrawerFooter>
+          <Button onClick={onOpen} bg={'white'} color={colors.green} w={'100%'}>
+            Login
+          </Button>
+        </DrawerFooter>
+      </DrawerContent>
     </Drawer>
     // <Sheet>
     //   <SheetTrigger asChild className="z-[9999]">
