@@ -124,7 +124,7 @@ export const Footer = ({}: Props) => {
                 {subLink?.icon && subLink?.icon}
                 <Link key={subLink.title} href={subLink.link} target="_blank">
                   <Text
-                    fontWeight={'bold'}
+                    fontWeight={'400'}
                     fontFamily={'var(--font-rubik)'}
                     textDecoration={'underline'}
                     textDecorationColor={colors.green}

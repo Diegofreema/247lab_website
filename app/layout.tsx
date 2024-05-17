@@ -7,6 +7,10 @@ import { Header } from './component/Header';
 import { ViewTransitions } from 'next-view-transitions';
 import cn from 'classnames';
 import { Footer } from '@/components/Footer';
+import { FloatingNavbar } from '@/components/ui/Navabar';
+import { ModalProvider } from './ModalProvider';
+import MobileNav from './component/MobileNav';
+import { FloatingBtn } from '@/components/ui/floatingBtn';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -25,10 +29,13 @@ export default function RootLayout({
         <body
           className={cn('bg-white overflow-x-hidden', fonts.rubik.variable)}
         >
+          <ModalProvider />
           <Providers>
             <Header />
+            <FloatingNavbar />
             {children}
             <Footer />
+            <FloatingBtn />
           </Providers>
         </body>
       </html>
