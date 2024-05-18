@@ -68,6 +68,7 @@ export const Hero = ({}: Props) => {
                 }}
                 bg={colors.green}
                 color="white"
+                fontFamily={'var(--font-rubik)'}
               >
                 Book an appointment
               </Button>
