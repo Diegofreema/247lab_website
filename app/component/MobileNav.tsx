@@ -168,6 +168,8 @@ const MobileNav = ({ isOpen, onClose }: Props) => {
             bg={'white'}
             color={colors.green}
             w={'100%'}
+            mb={10}
+            fontFamily={'var(--font-rubik)'}
           >
             Login
           </Button>
