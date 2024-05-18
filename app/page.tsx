@@ -12,10 +12,11 @@ import { Websites } from './component/Websites';
 import { ContactForm } from './component/ContactForm';
 import { ScrollIndicator } from '@/components/ui/scrollIndicator';
 
+import FloatingBookBtn from '../components/ui/floatingBookBtn';
+
 export default function Home() {
   return (
     <Wrapper>
-      <ScrollIndicator />
       <Transition />
       <Hero />
       <Choose />
@@ -24,6 +25,7 @@ export default function Home() {
       <BackgroundImage />
       <Websites />
       <ContactForm />
+      {/* <FloatingBookBtn /> */}
     </Wrapper>
   );
 }

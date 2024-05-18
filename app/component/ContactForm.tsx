@@ -48,7 +48,7 @@ export const ContactForm = ({}: Props) => {
       id="contact"
       minH={'100vh'}
       mx={'auto'}
-      maxWidth={{ base: '90%', md: '70%', lg: '50%' }}
+      maxWidth={{ base: '100%', md: '80%', lg: '50%' }}
     >
       <Intro intro="Get in touch" />
       <MyForm />

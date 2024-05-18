@@ -32,6 +32,7 @@ export default function RootLayout({
         >
           <ModalProvider />
           <Providers>
+            <ScrollIndicator />
             <Header />
             <FloatingNavbar />
             {children}
