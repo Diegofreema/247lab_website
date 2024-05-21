@@ -46,8 +46,6 @@ export const FloatingBtn = (props: Props) => {
     },
   };
 
-  console.log({ scrollY, scrollYProgress });
-
   return (
     <motion.button
       variants={variants}

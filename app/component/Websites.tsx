@@ -1,7 +1,8 @@
 import { HoverEffect } from '@/components/ui/Hover';
 import { Intro } from '@/components/ui/Intro';
 import { Box, Card, CardBody, CardHeader, SimpleGrid } from '@chakra-ui/react';
-import { Activity, Ambulance, Hospital } from 'lucide-react';
+import { IconCash } from '@tabler/icons-react';
+import { Activity, Ambulance, Hospital, Truck } from 'lucide-react';
 
 type Props = {};
 const links = [
@@ -18,10 +19,22 @@ const links = [
     icon: <Ambulance color="#009A51" size={30} />,
   },
   {
-    link: 'https://247Homehealth.net/',
+    link: '',
 
     text: '247Homehealth',
     icon: <Activity color="#009A51" size={30} />,
+  },
+  {
+    link: 'https://247delivery.net/',
+
+    text: '247Delivery',
+    icon: <Truck color="#009A51" size={30} />,
+  },
+
+  {
+    link: '',
+    text: '247Money',
+    icon: <IconCash color="#009A51" size={30} />,
   },
 ];
 export const Websites = ({}: Props): JSX.Element => {

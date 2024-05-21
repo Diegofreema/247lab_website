@@ -63,10 +63,11 @@ export const Header = ({}: Props) => {
           alt="logo"
           src="/logo.png"
           width={{ base: 120, md: 150 }}
-          height={50}
+          height={'auto'}
           objectFit={'cover'}
         />
       </Link>
+      <ContactDetails />
       <div className="block md:hidden">
         <Button onClick={onOpen}>
           <IconMenu className="w-6 h-6 text-[#009a51]" />
@@ -74,5 +75,44 @@ export const Header = ({}: Props) => {
         <MobileNav isOpen={isOpen} onClose={onClose} />
       </div>
     </motion.div>
+  );
+};
+
+const ContactDetails = () => {
+  return (
+    <Flex flexDir={'column'} gap={2} hideBelow={'md'}>
+      <Text
+        textColor="black"
+        fontFamily={'var(--font-rubik)'}
+        fontSize={14}
+        fontWeight={'bold'}
+      >
+        Telephone: 08052255000
+      </Text>
+      <Text
+        textColor="black"
+        fontFamily={'var(--font-rubik)'}
+        fontSize={14}
+        fontWeight={'bold'}
+      >
+        Email: ask@247healthcare.africa
+      </Text>
+      <Text
+        textColor="black"
+        fontFamily={'var(--font-rubik)'}
+        fontSize={14}
+        fontWeight={'bold'}
+      >
+        For media and publicity queries, please email :
+      </Text>
+      <Text
+        textColor="black"
+        fontFamily={'var(--font-rubik)'}
+        fontSize={14}
+        fontWeight={'bold'}
+      >
+        media@247healthcare.africa
+      </Text>
+    </Flex>
   );
 };

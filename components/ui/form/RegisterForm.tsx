@@ -1,47 +1,131 @@
+'use client';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { BottomGradient, LabelInputContainer } from './FormComponents';
 import { LogIn, Send } from 'lucide-react';
-import { Flex } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { Input } from '../input';
 import { Label } from '../label';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { schema } from '@/utils/validators';
+import createUser from '@/actions/auth.actions';
+import { useToast, Select } from '@chakra-ui/react';
+import { Button } from '../button';
+import { useOpen } from '@/lib/zustand/useOpen';
+
+import { useStates } from '@/lib/tanstack/queries';
+import { ErrorCom } from '../Error';
+import { LoadingComponent } from '../LoadingComponent';
+import { community, states } from '@/dummyData';
 
 type Props = {};
-const schema = z.object({
-  firstName: z.string({
-    required_error: 'Please enter a first name',
-  }),
-  lastName: z.string({ required_error: 'Please enter a last name' }),
-  email: z
-    .string({
-      invalid_type_error: 'Please enter a valid email address',
-      required_error: 'Please enter an email address',
-    })
-    .email({ message: 'Please enter an email' }),
-  password: z
-    .string({ required_error: 'Please enter a password' })
-    .min(6, 'Please enter a valid password'),
-  confirmPassword: z
-    .string({ required_error: 'Please enter a password' })
-    .min(6, 'Please enter a valid password'),
-  address: z.string({ required_error: 'Please enter an address' }),
-  phoneNumber: z
-    .string({ required_error: 'Please enter a phone number' })
-    .min(11, 'Please enter a valid phone number'),
-  dob: z.string({ required_error: 'Please enter a date of birth' }),
-  state: z.string({ required_error: 'Please select a state' }),
-  community: z.string({ required_error: 'Please select a community' }),
-});
+const initialState = {
+  message: '',
+};
 export const RegisterForm = ({}: Props): JSX.Element => {
-  const { handleSubmit, control, reset } = useForm<z.infer<typeof schema>>({
+  const toast = useToast();
+  const { isOpen, onClose } = useOpen();
+  // const { data, isPending, isError, refetch, isPaused, error } = useStates();
+  const {
+    handleSubmit,
+    control,
+    reset,
+    watch,
+    formState: { isSubmitting, errors },
+  } = useForm<z.infer<typeof schema>>({
     defaultValues: {
       email: '',
       password: '',
+      firstName: '',
+      lastName: '',
+      confirmPassword: '',
+      phoneNumber: '',
+      address: '',
+      state: '',
+      community: '',
+      dob: '',
     },
   });
-  const onSubmit: SubmitHandler<z.infer<typeof schema>> = (data) => {};
+  // console.log(error);
+
+  // if (isError || isPaused) {
+  //   return <ErrorCom retry={refetch} />;
+  // }
+
+  // if (isPending) {
+  //   return <LoadingComponent />;
+  // }
+
+  // console.log(data, 'data');
+  const { state } = watch();
+  console.log(state, 'state');
+
+  const onSubmit: SubmitHandler<z.infer<typeof schema>> = async (data) => {
+    try {
+      const formData = await createUser(data);
+      console.log(
+        '🚀 ~ constonSubmit:SubmitHandler<z.infer<typeofschema>>= ~ formData:',
+        formData
+      );
+      if (formData?.errors) {
+        if (formData?.errors.confirmPassword) {
+          return toast({
+            title: 'Failed to create account',
+            description: 'Passwords do not match',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+            position: 'top-right',
+          });
+        }
+
+        return toast({
+          title: 'Failed to create account',
+          description: 'Please give valid details.',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
+      if (formData?.message === 'Email Already Exist') {
+        return toast({
+          title: 'Failed to create account',
+          description: 'Email already exist, please use different email.',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
+
+      if (formData?.message === 'Success') {
+        console.log(formData?.patientId);
+        reset();
+        onClose();
+        return toast({
+          title: 'Account created.',
+          description: "We've created your account for you.",
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+
+      toast({
+        title: 'Failed to create account',
+        description: 'Something went wrong.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    }
+  };
   return (
     <AnimatePresence>
       <motion.form
@@ -52,7 +136,7 @@ export const RegisterForm = ({}: Props): JSX.Element => {
         onSubmit={handleSubmit(onSubmit)}
         className="w-full space-y-4"
       >
-        <ScrollArea className="h-[300px] w-full rounded-md border p-4 space-y-4">
+        <ScrollArea className="h-[400px] w-full rounded-md border p-4 space-y-4">
           <LabelInputContainer className="mb-3">
             <Label>First name</Label>
             <Controller
@@ -63,6 +147,9 @@ export const RegisterForm = ({}: Props): JSX.Element => {
                 <Input {...field} placeholder="First name" />
               )}
             />
+            {errors.firstName && (
+              <Text color="red">{'First name is required'}</Text>
+            )}
           </LabelInputContainer>
           <LabelInputContainer className="mb-3">
             <Label>Last name</Label>
@@ -74,6 +161,9 @@ export const RegisterForm = ({}: Props): JSX.Element => {
                 <Input {...field} placeholder="Last name" />
               )}
             />
+            {errors.lastName && (
+              <Text color="red">{'Last name is required'}</Text>
+            )}
           </LabelInputContainer>
           <LabelInputContainer className="mb-3">
             <Label>Email</Label>
@@ -85,6 +175,9 @@ export const RegisterForm = ({}: Props): JSX.Element => {
                 <Input {...field} placeholder="Email" type="email" />
               )}
             />
+            {errors.email && (
+              <Text color="red">{'Please put a valid email'}</Text>
+            )}
           </LabelInputContainer>
           <LabelInputContainer className="mb-3">
             <Label>Phone number</Label>
@@ -93,9 +186,12 @@ export const RegisterForm = ({}: Props): JSX.Element => {
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <Input {...field} placeholder="Phone number" type="email" />
+                <Input {...field} placeholder="Phone number" />
               )}
             />
+            {errors.phoneNumber && (
+              <Text color="red">{'Phone number is required'}</Text>
+            )}
           </LabelInputContainer>
           <LabelInputContainer className="mb-3">
             <Label>Address</Label>
@@ -105,6 +201,7 @@ export const RegisterForm = ({}: Props): JSX.Element => {
               rules={{ required: true }}
               render={({ field }) => <Input {...field} placeholder="Address" />}
             />
+            {errors.address && <Text color="red">{'Address is required'}</Text>}
           </LabelInputContainer>
           <LabelInputContainer className="mb-3">
             <Label>State</Label>
@@ -112,8 +209,17 @@ export const RegisterForm = ({}: Props): JSX.Element => {
               name="state"
               control={control}
               rules={{ required: true }}
-              render={({ field }) => <Input {...field} placeholder="State" />}
+              render={({ field }) => (
+                <Select placeholder="Select state" {...field}>
+                  {states.map((state) => (
+                    <option key={state.statename} value={state.statename}>
+                      {state.statename}
+                    </option>
+                  ))}
+                </Select>
+              )}
             />
+            {errors.state && <Text color="red">{'State is required'}</Text>}
           </LabelInputContainer>
           <LabelInputContainer className="mb-3">
             <Label>Community</Label>
@@ -122,9 +228,19 @@ export const RegisterForm = ({}: Props): JSX.Element => {
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <Input {...field} placeholder="Community" />
+                <Select placeholder="Select community" {...field}>
+                  {community.map((c, i) => (
+                    <option key={i} value={c.commname}>
+                      {c.commname}
+                    </option>
+                  ))}
+                </Select>
               )}
             />
+
+            {errors.community && (
+              <Text color="red">{errors.community.message}</Text>
+            )}
           </LabelInputContainer>
           <LabelInputContainer className="mb-3">
             <Label>Date of birth</Label>
@@ -136,6 +252,7 @@ export const RegisterForm = ({}: Props): JSX.Element => {
                 <Input {...field} placeholder="Date of birth" type="date" />
               )}
             />
+            {errors.dob && <Text color="red">{errors.dob.message}</Text>}
           </LabelInputContainer>
           <LabelInputContainer className="mb-3">
             <Label>Password</Label>
@@ -147,6 +264,9 @@ export const RegisterForm = ({}: Props): JSX.Element => {
                 <Input {...field} placeholder="Password" type="password" />
               )}
             />
+            {errors.password && (
+              <Text color="red">{errors.password.message}</Text>
+            )}
           </LabelInputContainer>
           <LabelInputContainer className="mb-3">
             <Label>Confirm password</Label>
@@ -162,10 +282,15 @@ export const RegisterForm = ({}: Props): JSX.Element => {
                 />
               )}
             />
+            {errors.confirmPassword && (
+              <Text color="red">{errors.confirmPassword.message}</Text>
+            )}
           </LabelInputContainer>
 
-          <Flex justifyContent={'flex-start'}>
-            <button
+          <Flex justifyContent={'flex-start'} width={'100%'} mb={10}>
+            <Button
+              disabled={isSubmitting}
+              onClick={() => handleSubmit(onSubmit)}
               className=" relative w-fit group/btn flex space-x-2 items-center justify-start px-4  text-white rounded-md h-10 font-medium shadow-input bg-[#009A51] dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
               type="submit"
             >
@@ -177,7 +302,7 @@ export const RegisterForm = ({}: Props): JSX.Element => {
                 Sign up
               </span>
               <BottomGradient />
-            </button>
+            </Button>
           </Flex>
         </ScrollArea>
       </motion.form>

@@ -1,7 +1,4 @@
-'use client';
 import { Wrapper } from '@/components/Wrapper';
-import { Box, Text, useColorModeValue } from '@chakra-ui/react';
-import Image from 'next/image';
 import { Hero } from './component/Hero';
 import { Choose } from './component/Choose';
 import { Works } from './component/Works';
@@ -10,22 +7,24 @@ import { BackgroundImage } from './component/BackgroundImage';
 import Transition from '@/components/ui/Transition';
 import { Websites } from './component/Websites';
 import { ContactForm } from './component/ContactForm';
-import { ScrollIndicator } from '@/components/ui/scrollIndicator';
 
-import FloatingBookBtn from '../components/ui/floatingBookBtn';
-
+import { About } from './component/About';
+import { Header } from './component/Header';
+import { Footer } from '@/components/Footer';
 export default function Home() {
   return (
     <Wrapper>
+      <Header />
       <Transition />
       <Hero />
       <Choose />
       <Works />
       <Services />
+      <About />
       <BackgroundImage />
       <Websites />
       <ContactForm />
-      {/* <FloatingBookBtn /> */}
+      <Footer />
     </Wrapper>
   );
 }

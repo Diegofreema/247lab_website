@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Providers } from './provider';
 import { fonts } from './font';
-import { Header } from './component/Header';
+
 import { ViewTransitions } from 'next-view-transitions';
 import cn from 'classnames';
 import { Footer } from '@/components/Footer';
@@ -12,6 +12,7 @@ import { ModalProvider } from './ModalProvider';
 import MobileNav from './component/MobileNav';
 import { FloatingBtn } from '@/components/ui/floatingBtn';
 import { ScrollIndicator } from '@/components/ui/scrollIndicator';
+import ProviderTanstack from '@/components/ProviderTanstack';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -30,14 +31,16 @@ export default function RootLayout({
         <body
           className={cn('bg-white overflow-x-hidden', fonts.rubik.variable)}
         >
-          <ModalProvider />
           <Providers>
-            <ScrollIndicator />
-            <Header />
-            <FloatingNavbar />
-            {children}
-            <Footer />
-            <FloatingBtn />
+            <ProviderTanstack>
+              <ModalProvider />
+              <ScrollIndicator />
+
+              <FloatingNavbar />
+              {children}
+
+              <FloatingBtn />
+            </ProviderTanstack>
           </Providers>
         </body>
       </html>

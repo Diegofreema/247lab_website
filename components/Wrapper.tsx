@@ -10,7 +10,7 @@ export const Wrapper = ({ children }: Props) => {
   return (
     <Box
       minH={'100vh'}
-      maxWidth={{ base: '90%', lg: '80%' }}
+      maxWidth={{ base: '90%', md: '80%' }}
       mx={'auto'}
       bg={'white'}
       paddingBottom={{ base: 50, md: 20 }}

@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@/lib/utils';
 import { Flex, IconButton, Image } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -27,6 +29,7 @@ export const HoverEffect = ({
       {items.map((item, idx) => (
         <Link
           href={item?.link}
+          onClick={item?.link === '' ? (e) => e.preventDefault() : undefined}
           key={item?.link}
           className="relative group  block p-2 h-full w-full"
           onMouseEnter={() => setHoveredIndex(idx)}
@@ -62,6 +65,11 @@ export const HoverEffect = ({
               />
             </Flex>
             <CardTitle>{item.text}</CardTitle>
+            {item?.link === '' && (
+              <CardDescription className="text-base font-bold">
+                Coming soon
+              </CardDescription>
+            )}
           </Card>
         </Link>
       ))}

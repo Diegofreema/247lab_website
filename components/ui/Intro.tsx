@@ -29,7 +29,11 @@ export const Intro = ({ intro }: Props): JSX.Element => {
       alignItems={'center'}
       gap={2}
     >
-      <MyText textAlign={'center'} color={'black'} fontSize={'3xl'}>
+      <MyText
+        textAlign={'center'}
+        color={'black'}
+        fontSize={{ base: '3xl', md: '5xl' }}
+      >
         {intro}
       </MyText>
       <Box width={'100px'} h="4px" bg={colors.green} />

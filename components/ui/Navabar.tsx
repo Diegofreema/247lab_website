@@ -1,7 +1,7 @@
-'use client';
 import React from 'react';
 import { FloatingNav } from '../ui/floating-navbar';
 import { IconHome, IconMessage, IconUser } from '@tabler/icons-react';
+import LoginButtonContainer from './LoginButton';
 export function FloatingNavbar() {
   const navItems = [
     {
@@ -36,5 +36,9 @@ export function FloatingNavbar() {
       ),
     },
   ];
-  return <FloatingNav navItems={navItems} className="hidden md:flex" />;
+  return (
+    <FloatingNav navItems={navItems} className="hidden md:flex">
+      <LoginButtonContainer />
+    </FloatingNav>
+  );
 }
