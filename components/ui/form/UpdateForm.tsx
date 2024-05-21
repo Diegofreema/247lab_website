@@ -8,8 +8,8 @@ import { Input } from '../input';
 import { Label } from '../label';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { schema } from '@/utils/validators';
-import createUser from '@/actions/auth.actions';
+import { schema, updateSchema } from '@/utils/validators';
+import createUser, { getProfile } from '@/actions/auth.actions';
 import { useToast, Select } from '@chakra-ui/react';
 import { Button } from '../button';
 import { useOpen } from '@/lib/zustand/useOpen';
@@ -18,81 +18,90 @@ import { useStates } from '@/lib/tanstack/queries';
 import { ErrorCom } from '../Error';
 import { LoadingComponent } from '../LoadingComponent';
 import { community, states } from '@/dummyData';
+import { useUpdateForm } from '@/lib/zustand/useUpdateForm';
+import { updateUser } from '../../../actions/auth.actions';
+import { useRouter } from 'next/navigation';
+import { User, UserType } from '@/utils/types';
+import { useEffect, useState } from 'react';
 
 type Props = {};
 const initialState = {
   message: '',
 };
-export const RegisterForm = ({}: Props): JSX.Element => {
+export const UpdateForm = ({}: Props): JSX.Element => {
   const toast = useToast();
-  const { isOpen, onClose } = useOpen();
-  // const { data, isPending, isError, refetch, isPaused, error } = useStates();
+  const { onClose } = useUpdateForm();
+  const router = useRouter();
+
   const {
     handleSubmit,
     control,
     reset,
     watch,
     formState: { isSubmitting, errors },
-  } = useForm<z.infer<typeof schema>>({
+    setValue,
+  } = useForm<z.infer<typeof updateSchema>>({
     defaultValues: {
       email: '',
-      password: '',
       firstName: '',
       lastName: '',
-      confirmPassword: '',
       phoneNumber: '',
       address: '',
       state: '',
       community: '',
-      dob: '',
     },
   });
-  // console.log(error);
-
-  // if (isError || isPaused) {
-  //   return <ErrorCom retry={refetch} />;
-  // }
-
-  // if (isPending) {
-  //   return <LoadingComponent />;
-  // }
-
-  // console.log(data, 'data');
+  useEffect(() => {
+    const getUserProfile = async () => {
+      try {
+        const profile: UserType = await getProfile();
+        if (profile) {
+          setValue('email', profile?.email);
+          setValue('firstName', profile?.fname);
+          setValue('lastName', profile?.lname);
+          setValue('phoneNumber', profile?.phone);
+          setValue('address', profile?.streetaddress);
+          setValue('state', profile?.statename);
+          setValue('community', profile?.communityname);
+        }
+      } catch (error) {
+        toast({
+          title: 'Error getting user profile',
+          description: 'Please try again later.',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
+    };
+    getUserProfile();
+  }, [toast, setValue]);
   const { state } = watch();
-  console.log(state, 'state');
 
-  const onSubmit: SubmitHandler<z.infer<typeof schema>> = async (data) => {
+  const onSubmit: SubmitHandler<z.infer<typeof updateSchema>> = async (
+    data
+  ) => {
     try {
-      const formData = await createUser(data);
+      const formData = await updateUser(data);
       console.log(
         '🚀 ~ constonSubmit:SubmitHandler<z.infer<typeofschema>>= ~ formData:',
         formData
       );
       if (formData?.errors) {
-        if (formData?.errors.confirmPassword) {
-          return toast({
-            title: 'Failed to create account',
-            description: 'Passwords do not match',
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-            position: 'top-right',
-          });
-        }
-
         return toast({
-          title: 'Failed to create account',
-          description: 'Please give valid details.',
+          title: 'Failed to update account',
+          description: 'Please try again later.',
           status: 'error',
           duration: 9000,
           isClosable: true,
           position: 'top-right',
         });
       }
-      if (formData?.message === 'Email Already Exist') {
+      if (formData?.message === 'You cannot update your data at this time') {
         return toast({
-          title: 'Failed to create account',
-          description: 'Email already exist, please use different email.',
+          title: 'Failed to update profile',
+          description: 'You cannot update your profile at this time.',
           status: 'error',
           duration: 9000,
           isClosable: true,
@@ -100,21 +109,24 @@ export const RegisterForm = ({}: Props): JSX.Element => {
         });
       }
 
-      reset();
-      onClose();
-      return toast({
-        title: 'Account created.',
-        description: "We've created your account for you.",
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-        position: 'top-right',
-      });
+      if (formData?.message === 'Profile updated') {
+        reset();
+        onClose();
+        router.refresh();
+        return toast({
+          title: 'Profile updated.',
+          description: 'Your profile has been updated.',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
     } catch (error) {
       console.log(error);
 
       toast({
-        title: 'Failed to create account',
+        title: 'Failed to update profile',
         description: 'Something went wrong.',
         status: 'error',
         duration: 9000,
@@ -123,6 +135,7 @@ export const RegisterForm = ({}: Props): JSX.Element => {
       });
     }
   };
+
   return (
     <AnimatePresence>
       <motion.form
@@ -239,50 +252,6 @@ export const RegisterForm = ({}: Props): JSX.Element => {
               <Text color="red">{errors.community.message}</Text>
             )}
           </LabelInputContainer>
-          <LabelInputContainer className="mb-3">
-            <Label>Date of birth</Label>
-            <Controller
-              name="dob"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <Input {...field} placeholder="Date of birth" type="date" />
-              )}
-            />
-            {errors.dob && <Text color="red">{errors.dob.message}</Text>}
-          </LabelInputContainer>
-          <LabelInputContainer className="mb-3">
-            <Label>Password</Label>
-            <Controller
-              name="password"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <Input {...field} placeholder="Password" type="password" />
-              )}
-            />
-            {errors.password && (
-              <Text color="red">{errors.password.message}</Text>
-            )}
-          </LabelInputContainer>
-          <LabelInputContainer className="mb-3">
-            <Label>Confirm password</Label>
-            <Controller
-              name="confirmPassword"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  placeholder="Confirm Password"
-                  type="password"
-                />
-              )}
-            />
-            {errors.confirmPassword && (
-              <Text color="red">{errors.confirmPassword.message}</Text>
-            )}
-          </LabelInputContainer>
 
           <Flex justifyContent={'flex-start'} width={'100%'} mb={10}>
             <Button
@@ -296,7 +265,7 @@ export const RegisterForm = ({}: Props): JSX.Element => {
                 size={25}
               />
               <span className="text-white dark:text-neutral-300 text-sm">
-                Sign up
+                Update
               </span>
               <BottomGradient />
             </Button>

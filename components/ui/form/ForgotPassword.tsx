@@ -2,75 +2,63 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { BottomGradient, LabelInputContainer } from './FormComponents';
-import { LogIn, Send } from 'lucide-react';
-import { Button, Flex, Text, useToast } from '@chakra-ui/react';
+import { LogIn, Send, SendHorizonal } from 'lucide-react';
+import { Flex, Text, useToast } from '@chakra-ui/react';
 import { Input } from '../input';
 import { Label } from '../label';
 import { AnimatePresence, motion } from 'framer-motion';
-
+import { Button } from '../button';
 import { loginSchema } from '@/utils/validators';
-import { logInUser } from '@/actions/auth.actions';
+import { logInUser, sendEmail } from '@/actions/auth.actions';
 import { useOpen } from '@/lib/zustand/useOpen';
 import { useForgot } from '@/lib/zustand/useForgot';
-import { colors } from '../../../constants';
 type Props = {};
-
-export const LoginForm = ({}: Props): JSX.Element => {
+const schema = z.object({
+  email: z.string().email({ message: 'Invalid email' }),
+});
+export const ForgotForm = ({}: Props): JSX.Element => {
   const toast = useToast();
-  const { onClose } = useOpen();
-  const { onOpen } = useForgot();
-
+  const { onOpen } = useOpen();
+  const { onClose } = useForgot();
   const {
     handleSubmit,
     control,
     reset,
     formState: { isSubmitting, errors },
-  } = useForm<z.infer<typeof loginSchema>>({
+  } = useForm<z.infer<typeof schema>>({
     defaultValues: {
       email: '',
-      password: '',
     },
   });
-  const onSubmit: SubmitHandler<z.infer<typeof loginSchema>> = async (data) => {
-    console.log('Submitted data:', data);
-
+  const onSubmit: SubmitHandler<z.infer<typeof schema>> = async (data) => {
     try {
-      const formData = await logInUser(data);
+      const formData = await sendEmail(data.email);
       console.log(
         '🚀 ~ constonSubmit:SubmitHandler<z.infer<typeofschema>>= ~ formData:',
         formData
       );
       if (formData?.errors) {
         return toast({
-          title: 'Failed to create account',
-          description: 'Please give valid details.',
+          title: 'Failed to send email',
+          description: 'Please try again later.',
           status: 'error',
           duration: 9000,
           isClosable: true,
           position: 'top-right',
         });
       }
-      if (formData?.message === 'Invalid credentials') {
+      if (formData?.message === 'Password Sent') {
+        reset();
+        onClose();
         return toast({
-          title: 'Failed to login',
-          description: 'Invalid email or password.',
-          status: 'error',
+          title: 'Email sent',
+          description: 'Please check your email.',
+          status: 'success',
           duration: 9000,
           isClosable: true,
           position: 'top-right',
         });
       }
-
-      reset();
-      onClose();
-      return toast({
-        title: 'Welcome back.',
-        description: 'Logged in successfully.',
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-        position: 'top-right',
-      });
     } catch (error) {
       console.log(error);
 
@@ -84,20 +72,22 @@ export const LoginForm = ({}: Props): JSX.Element => {
       });
     }
   };
-  const forgotHandler = () => {
+
+  const handleLogin = () => {
     onClose();
     onOpen();
   };
-
   return (
     <AnimatePresence>
-      <Button
-        variant={'ghost'}
-        className={' w-[150px] text-white'}
-        onClick={forgotHandler}
-      >
-        <p className="text-sm underline text-green-500"> Forgot password?</p>
-      </Button>
+      <Flex justifyContent={'flex-end'}>
+        <Button
+          variant={'outline'}
+          className={' w-[150px] text-black'}
+          onClick={handleLogin}
+        >
+          <p className="text-sm underline text-green-500">Login</p>
+        </Button>
+      </Flex>
       <motion.form
         initial={{ opacity: 0, scale: 0.7 }}
         animate={{ opacity: 1, scale: 1, transition: { duration: 0.5 } }}
@@ -106,7 +96,7 @@ export const LoginForm = ({}: Props): JSX.Element => {
         onSubmit={handleSubmit(onSubmit)}
         className="w-full space-y-4"
       >
-        <LabelInputContainer>
+        <LabelInputContainer className="mb-4">
           <Label>Email</Label>
           <Controller
             name="email"
@@ -120,31 +110,20 @@ export const LoginForm = ({}: Props): JSX.Element => {
             <Text color="red">{'A valid email is required'}</Text>
           )}
         </LabelInputContainer>
-        <LabelInputContainer>
-          <Label>Password</Label>
-          <Controller
-            name="password"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <Input {...field} placeholder="Password" type="password" />
-            )}
-          />
-          {errors.password && <Text color="red">{'Password is required'}</Text>}
-        </LabelInputContainer>
+
         <Button
-          isLoading={isSubmitting}
-          bg={colors.green}
-          color="white"
+          disabled={isSubmitting}
+          className=" relative w-fit group/btn flex space-x-2 items-center justify-start px-4  text-white rounded-md h-10 font-medium shadow-input bg-[#009A51] dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)] mt-5"
           type="submit"
-          leftIcon={
-            <LogIn
-              className="h-4 w-4 text-white dark:text-neutral-300"
-              size={25}
-            />
-          }
         >
-          Login
+          <SendHorizonal
+            className="h-4 w-4 text-white dark:text-neutral-300"
+            size={25}
+          />
+          <span className="text-white dark:text-neutral-300 text-sm">
+            Submit
+          </span>
+          <BottomGradient />
         </Button>
       </motion.form>
     </AnimatePresence>

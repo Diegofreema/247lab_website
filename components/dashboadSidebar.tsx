@@ -1,4 +1,5 @@
 'use client';
+import { logout } from '@/actions/auth.actions';
 import { colors } from '@/constants';
 import {
   Box,
@@ -8,6 +9,8 @@ import {
   Icon,
   Button,
   useBreakpointValue,
+  IconButton,
+  useToast,
 } from '@chakra-ui/react';
 import {
   IconFlask,
@@ -50,6 +53,16 @@ const links = [
   },
 ];
 export const DashBoardSidebar = ({}: Props) => {
+  const toast = useToast();
+  const onLogout = async () => {
+    await logout();
+    toast({
+      title: 'Logout successfully',
+      description: 'We hope to see you soon',
+      position: 'top-right',
+      status: 'success',
+    });
+  };
   const width = useBreakpointValue(
     {
       base: 50,
@@ -90,6 +103,7 @@ export const DashBoardSidebar = ({}: Props) => {
       <Links />
       <Box mt={'auto'} width={'100%'} hideBelow={'md'}>
         <Button
+          onClick={onLogout}
           width={'100%'}
           bg="transparent"
           color={colors.orange}
@@ -99,7 +113,12 @@ export const DashBoardSidebar = ({}: Props) => {
         </Button>
       </Box>
       <Box mt={'auto'} width={'100%'} hideFrom={'md'}>
-        <IconLogout size={25} color={colors.orange} />
+        <IconButton
+          bg="transparent"
+          onClick={onLogout}
+          aria-label="Logout"
+          icon={<IconLogout size={25} color={colors.orange} />}
+        />
       </Box>
     </Box>
   );

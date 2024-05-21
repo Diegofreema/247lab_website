@@ -10,6 +10,16 @@ export type User = {
   community: string;
   dob: string;
 };
+
+export type UpdateUser = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  address: string;
+  state: string;
+  community: string;
+};
 export type StateType = {
   statename: string;
 };

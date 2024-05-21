@@ -40,7 +40,7 @@ export const Header = ({}: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <motion.div
-      className="w-[90%] md:w-[80%] mx-auto flex py-5 justify-between items-center"
+      className="w-full mx-auto flex py-5 justify-between items-center"
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{
         opacity: 1,
