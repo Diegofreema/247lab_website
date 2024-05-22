@@ -121,6 +121,7 @@ const PayItem = ({
   const initializePayment = usePaystackPayment(config);
   useEffect(() => {
     if (data?.ref) {
+      // @ts-ignore
       initializePayment(onSuccess, onClose);
     }
   }, [data?.ref, initializePayment, onClose, onSuccess]);
