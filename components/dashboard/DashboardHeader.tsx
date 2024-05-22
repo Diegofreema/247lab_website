@@ -1,6 +1,6 @@
 'use client';
 import { colors } from '@/constants';
-import { Avatar, Box, Flex, Text, WrapItem } from '@chakra-ui/react';
+import { Avatar, Flex, Text, WrapItem } from '@chakra-ui/react';
 
 interface Props {
   name: string;
@@ -21,7 +21,11 @@ export const DashboardHeader = ({ name, lName }: Props) => {
       <WrapItem>
         <Avatar name={`${firstLetter}${lastLetter}`} />
       </WrapItem>
-      <Flex flexDirection={'column'} gap={1}>
+      <Flex
+        flexDirection={'column'}
+        alignItems={{ base: 'center', md: 'flex-start' }}
+        gap={1}
+      >
         <Text
           textColor={'black'}
           fontFamily={'var(--font-rubik)'}

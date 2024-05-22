@@ -2,6 +2,7 @@
 
 import { AuthModal } from '@/components/modals/AuthModal';
 import { ForgotModal } from '@/components/modals/ForgotModal';
+import { ResultModal } from '@/components/modals/ResultModal';
 import { UpdateModal } from '@/components/modals/UpdateModal';
 import { useEffect, useState } from 'react';
 
@@ -17,6 +18,7 @@ export const ModalProvider = () => {
       <AuthModal />
       <UpdateModal />
       <ForgotModal />
+      <ResultModal />
     </>
   );
 };

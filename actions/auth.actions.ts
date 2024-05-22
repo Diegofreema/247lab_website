@@ -8,8 +8,7 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 const api = process.env.NEXT_API_URL;
-const cookie = cookies().get('patientId');
-const patientId = cookie?.value;
+
 export default async function createUser(values: User) {
   const validatedFields = schema.safeParse({
     email: values.email,
@@ -108,6 +107,9 @@ export async function logInUser(values: { email: string; password: string }) {
   }
 }
 export async function getProfile(id?: any) {
+  const cookie = cookies().get('patientId');
+
+  const patientId = cookie?.value;
   try {
     const res = await fetch(`${api}api=getpatientinfo&patientid=${patientId}`);
 
@@ -124,6 +126,8 @@ export async function getProfile(id?: any) {
 }
 
 export async function updateUser(values: UpdateUser) {
+  const cookie = cookies().get('patientId');
+
   const validatedFields = updateSchema.safeParse({
     email: values.email,
     firstName: values.firstName,

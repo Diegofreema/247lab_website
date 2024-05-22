@@ -1,6 +1,7 @@
 'use client';
 import { logout } from '@/actions/auth.actions';
 import { colors } from '@/constants';
+import { useOpenDrawer } from '@/lib/zustand/useOpenDrawer';
 import {
   Box,
   Image,
@@ -20,6 +21,7 @@ import {
   IconLogout,
   IconNotification,
 } from '@tabler/icons-react';
+import { User } from 'lucide-react';
 import { Link } from 'next-view-transitions';
 import { usePathname } from 'next/navigation';
 import path from 'path';
@@ -65,7 +67,7 @@ export const DashBoardSidebar = ({}: Props) => {
   };
   const width = useBreakpointValue(
     {
-      base: 50,
+      base: 0,
       md: 300,
     },
     {
@@ -76,6 +78,7 @@ export const DashBoardSidebar = ({}: Props) => {
   );
   return (
     <Box
+      hideBelow={'md'}
       display={'flex'}
       position={'fixed'}
       top={0}
@@ -112,12 +115,24 @@ export const DashBoardSidebar = ({}: Props) => {
           Log out
         </Button>
       </Box>
-      <Box mt={'auto'} width={'100%'} hideFrom={'md'}>
+      <Box
+        mt={'auto'}
+        width={'100%'}
+        display={'flex'}
+        justifyContent={'center'}
+        hideFrom={'md'}
+      >
         <IconButton
           bg="transparent"
           onClick={onLogout}
           aria-label="Logout"
-          icon={<IconLogout size={25} color={colors.orange} />}
+          icon={
+            <Icon
+              as={IconLogout}
+              boxSize={{ base: 20, md: 25 }}
+              color={colors.orange}
+            />
+          }
         />
       </Box>
     </Box>
@@ -125,11 +140,18 @@ export const DashBoardSidebar = ({}: Props) => {
 };
 
 const Links = () => {
+  const { onOpen } = useOpenDrawer();
   return (
     <Flex height={'100%'} flexDirection={'column'} gap={4}>
       {links.map((link) => (
         <LinkItem key={link.label} link={link} />
       ))}
+      <IconButton
+        onClick={onOpen}
+        hideFrom={'md'}
+        aria-label="button"
+        icon={<Icon as={User} boxSize={25} color="black" />}
+      />
     </Flex>
   );
 };
