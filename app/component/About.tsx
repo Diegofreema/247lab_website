@@ -110,7 +110,7 @@ const Right = () => {
       }}
       viewport={{ once: true }}
     >
-      <Image alt="image" src="/d.png" width={'100%'} height={'auto'} />
+      <Image alt="image" src="/doc1.png" width={'100%'} height={'auto'} />
     </Box>
   );
 };

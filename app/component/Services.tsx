@@ -112,7 +112,7 @@ const Right = () => {
     >
       <Image
         alt="image"
-        src="/micro.png"
+        src="/doc.png"
         width={'100%'}
         height={'100%'}
         objectFit={'contain'}
