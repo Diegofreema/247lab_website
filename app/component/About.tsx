@@ -23,7 +23,7 @@ const lists = [
 ];
 export const About = ({}: Props) => {
   return (
-    <Box minH={'100vh'} id="#about">
+    <Box minH={'100vh'} id="about">
       <Intro intro="About us" />
       <SimpleGrid columns={{ base: 1, md: 2 }} gap={10} mt={10}>
         <Left />
@@ -90,9 +90,9 @@ const Left = () => {
           from the comfort of your home.
         </ListItem>
       </UnorderedList>
-      <Button bg={colors.green} width="100%" color="white" mt={5}>
+      {/* <Button bg={colors.green} width="100%" color="white" mt={5}>
         Learn more
-      </Button>
+      </Button> */}
     </Box>
   );
 };
