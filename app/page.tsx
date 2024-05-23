@@ -14,18 +14,20 @@ import { Footer } from '@/components/Footer';
 export default function Home() {
   const patientId = cookies().get('patientId')?.value;
   return (
-    <Wrapper>
-      <Header patientId={patientId} />
-      <Transition />
-      <Hero patientId={patientId} />
-      <Choose />
-      <Works />
-      <Services />
-      <About />
-      <BackgroundImage />
-      <Websites />
-      <ContactForm />
+    <>
+      <Wrapper>
+        <Header patientId={patientId} />
+        <Transition />
+        <Hero patientId={patientId} />
+        <Choose />
+        <Works />
+        <Services />
+        <About />
+        <BackgroundImage />
+        <Websites />
+        <ContactForm />
+      </Wrapper>
       <Footer />
-    </Wrapper>
+    </>
   );
 }
