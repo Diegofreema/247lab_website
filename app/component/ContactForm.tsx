@@ -13,10 +13,13 @@ import {
   FormErrorMessage,
   FormHelperText,
   Flex,
+  Box,
+  Button,
 } from '@chakra-ui/react';
 import { Send } from 'lucide-react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
+import { colors } from '../../constants';
 
 const messageSchema = z.object({
   message: z
@@ -116,7 +119,7 @@ const MyForm = () => {
           )}
         />
       </LabelInputContainer>
-      <LabelInputContainer>
+      <LabelInputContainer className="!mb-4">
         <Label>Message</Label>
         <Controller
           name="message"
@@ -132,19 +135,23 @@ const MyForm = () => {
           )}
         />
       </LabelInputContainer>
-      <Flex justifyContent={'flex-end'}>
-        <button
-          className=" relative w-fit group/btn flex space-x-2 items-center justify-start px-4  text-white rounded-md h-10 font-medium shadow-input bg-[#009A51] dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
+
+      <Box mt={3}>
+        <Button
+          bg={colors.green}
+          color="white"
           type="submit"
+          leftIcon={
+            <Send
+              className="h-4 w-4 text-white dark:text-neutral-300"
+              size={25}
+            />
+          }
         >
-          <Send
-            className="h-4 w-4 text-white dark:text-neutral-300"
-            size={25}
-          />
           <span className="text-white dark:text-neutral-300 text-sm">Send</span>
-          <BottomGradient />
-        </button>
-      </Flex>
+          {/* <BottomGradient /> */}
+        </Button>
+      </Box>
     </form>
   );
 };
