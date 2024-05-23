@@ -16,7 +16,9 @@ import { motion } from 'framer-motion';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import MobileNav from './MobileNav';
 import { IconMenu } from '@tabler/icons-react';
-interface Props {}
+interface Props {
+  patientId?: string | undefined;
+}
 const siteLinks = [
   {
     name: 'About',
@@ -36,7 +38,7 @@ const siteLinks = [
   },
 ];
 
-export const Header = ({}: Props) => {
+export const Header = ({ patientId }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <motion.div
@@ -72,7 +74,7 @@ export const Header = ({}: Props) => {
         <Button onClick={onOpen}>
           <IconMenu className="w-6 h-6 text-[#009a51]" />
         </Button>
-        <MobileNav isOpen={isOpen} onClose={onClose} />
+        <MobileNav isOpen={isOpen} onClose={onClose} patientId={patientId} />
       </div>
     </motion.div>
   );

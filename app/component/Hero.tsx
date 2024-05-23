@@ -13,10 +13,13 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { Link } from 'next-view-transitions';
+import { useOpen } from '../../lib/zustand/useOpen';
+interface Props {
+  patientId: string | undefined;
+}
 
-interface Props {}
-
-export const Hero = ({}: Props) => {
+export const Hero = ({ patientId }: Props) => {
+  const { onOpen } = useOpen();
   return (
     <Container>
       <SimpleGrid columns={{ base: 1, md: 2 }} gap={10} alignItems="center">
@@ -57,8 +60,29 @@ export const Hero = ({}: Props) => {
               and Mental Health Specialists are available to provide video
               consultations anywhere, anytime.
             </MyText>
-            <Link href="/labs" passHref>
+            {patientId && (
+              <Link href="/dashboard/all-labs" passHref>
+                <Button
+                  width={'fit-content'}
+                  className="animate-pulse"
+                  _hover={{
+                    transform: 'translateX(10px)',
+                    transition: 'all 0.3s ease-in-out',
+                    bg: colors.green,
+                    color: 'white',
+                  }}
+                  bg={colors.green}
+                  color="white"
+                  fontFamily={'var(--font-rubik)'}
+                >
+                  Book an appointment
+                </Button>
+              </Link>
+            )}
+            {!patientId && (
               <Button
+                width={'fit-content'}
+                onClick={onOpen}
                 className="animate-pulse"
                 _hover={{
                   transform: 'translateX(10px)',
@@ -72,7 +96,7 @@ export const Hero = ({}: Props) => {
               >
                 Book an appointment
               </Button>
-            </Link>
+            )}
           </Box>
         </motion.div>
 

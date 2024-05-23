@@ -10,15 +10,21 @@ import {
 import { UserType } from '@/utils/types';
 import { useOpenMobile } from '@/lib/zustand/useOpenMobile';
 import { MobileSideBar } from '../dashboard/DashboardMobileSidebar';
+import { colors } from '@/constants';
 
 export function MobileDrawer() {
   const { isOpen, onClose } = useOpenMobile();
 
   return (
-    <Drawer isOpen={isOpen} placement="top" onClose={onClose}>
+    <Drawer
+      isOpen={isOpen}
+      colorScheme="white"
+      placement="top"
+      onClose={onClose}
+    >
       <DrawerOverlay />
-      <DrawerContent>
-        <DrawerCloseButton />
+      <DrawerContent bg={'white'}>
+        <DrawerCloseButton color="black" />
         <DrawerBody>
           <MobileSideBar />
         </DrawerBody>

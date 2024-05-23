@@ -9,6 +9,7 @@ export const MobileButton = (): JSX.Element => {
   const { onOpen } = useOpenMobile();
   return (
     <IconButton
+      hideFrom={'md'}
       position={'fixed'}
       right={3}
       top={5}

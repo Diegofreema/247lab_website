@@ -160,8 +160,9 @@ const Links = () => {
         <Text
           _groupHover={{ color: 'white', transition: 'all 0.3s ease' }}
           fontWeight={'bold'}
+          textColor="black"
         >
-          {'Profile'}
+          Profile
         </Text>
       </Flex>
     </Flex>

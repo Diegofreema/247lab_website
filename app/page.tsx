@@ -7,16 +7,17 @@ import { BackgroundImage } from './component/BackgroundImage';
 import Transition from '@/components/ui/Transition';
 import { Websites } from './component/Websites';
 import { ContactForm } from './component/ContactForm';
-
+import { cookies } from 'next/headers';
 import { About } from './component/About';
 import { Header } from './component/Header';
 import { Footer } from '@/components/Footer';
 export default function Home() {
+  const patientId = cookies().get('patientId')?.value;
   return (
     <Wrapper>
-      <Header />
+      <Header patientId={patientId} />
       <Transition />
-      <Hero />
+      <Hero patientId={patientId} />
       <Choose />
       <Works />
       <Services />

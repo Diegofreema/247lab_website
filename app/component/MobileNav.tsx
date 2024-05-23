@@ -32,6 +32,7 @@ const MotionLink = motion(Link);
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  patientId: string | undefined;
 };
 const navItems = [
   {
@@ -60,7 +61,7 @@ const navItems = [
     icon: <MessageCircle className="h-4 w-4 text-[#fff] dark:text-white" />,
   },
 ];
-const MobileNav = ({ isOpen, onClose }: Props) => {
+const MobileNav = ({ isOpen, onClose, patientId }: Props) => {
   const { onOpen } = useOpen();
   const onLogin = () => {
     onClose();
@@ -164,18 +165,20 @@ const MobileNav = ({ isOpen, onClose }: Props) => {
           {/* </AnimatePresence> */}
         </DrawerBody>
 
-        <DrawerFooter>
-          <Button
-            onClick={onLogin}
-            bg={'white'}
-            color={colors.green}
-            w={'100%'}
-            mb={10}
-            fontFamily={'var(--font-rubik)'}
-          >
-            Login
-          </Button>
-        </DrawerFooter>
+        {!patientId && (
+          <DrawerFooter>
+            <Button
+              onClick={onLogin}
+              bg={'white'}
+              color={colors.green}
+              w={'100%'}
+              mb={10}
+              fontFamily={'var(--font-rubik)'}
+            >
+              Login
+            </Button>
+          </DrawerFooter>
+        )}
       </DrawerContent>
     </Drawer>
     // <Sheet>
