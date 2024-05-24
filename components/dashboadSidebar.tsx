@@ -96,13 +96,15 @@ export const DashBoardSidebar = ({}: Props) => {
       transitionProperty="top, bottom, width"
       transitionTimingFunction="linear, linear, ease"
     >
-      <Image
-        alt="logo"
-        src="/logo.png"
-        width={{ base: 100, md: 200 }}
-        height={{ base: 50, md: 'auto' }}
-        objectFit={'cover'}
-      />
+      <Link href="/">
+        <Image
+          alt="logo"
+          src="/logo.png"
+          width={{ base: 100, md: 200 }}
+          height={{ base: 50, md: 'auto' }}
+          objectFit={'cover'}
+        />
+      </Link>
       <Links />
       <Box mt={'auto'} width={'100%'} hideBelow={'md'}>
         <Button

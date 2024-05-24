@@ -16,6 +16,7 @@ import { motion } from 'framer-motion';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import MobileNav from './MobileNav';
 import { IconMenu } from '@tabler/icons-react';
+import { Mail, Phone } from 'lucide-react';
 interface Props {
   patientId?: string | undefined;
 }
@@ -82,23 +83,30 @@ export const Header = ({ patientId }: Props) => {
 
 const ContactDetails = () => {
   return (
-    <Flex flexDir={'column'} gap={2} hideBelow={'md'}>
-      <Text
-        textColor="black"
-        fontFamily={'var(--font-rubik)'}
-        fontSize={14}
-        fontWeight={'bold'}
-      >
-        Telephone: 08052255000
-      </Text>
-      <Text
-        textColor="black"
-        fontFamily={'var(--font-rubik)'}
-        fontSize={14}
-        fontWeight={'bold'}
-      >
-        Email: ask@247healthcare.africa
-      </Text>
+    <Flex flexDir={'row'} gap={2} hideBelow={'md'}>
+      <Flex alignItems={'center'} gap={2}>
+        <Phone color={colors.green} size={20} />
+        <Text
+          textColor="black"
+          fontFamily={'var(--font-rubik)'}
+          fontSize={14}
+          fontWeight={'bold'}
+        >
+          08052255000
+        </Text>
+      </Flex>
+
+      <Flex alignItems={'center'} gap={2}>
+        <Mail color={colors.green} size={20} />
+        <Text
+          textColor="black"
+          fontFamily={'var(--font-rubik)'}
+          fontSize={14}
+          fontWeight={'bold'}
+        >
+          ask@247healthcare.africa
+        </Text>
+      </Flex>
       <Text
         textColor="black"
         fontFamily={'var(--font-rubik)'}

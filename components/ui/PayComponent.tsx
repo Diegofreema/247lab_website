@@ -64,17 +64,26 @@ const PayItem = ({
   const [selected, setSelected] = useState(false);
 
   const onToggleHomeService = () => setSelected(!selected);
+  console.log(test?.logistics);
 
   const basePrice = +test?.cost;
   const homeServiceFee = test?.logistics ? +test.logistics : 0;
 
   const finalPrice = useMemo(() => {
+    console.log(selected);
+
     if (selected) {
+      console.log('accepted');
+
       return basePrice + homeServiceFee;
     } else {
+      console.log('did not');
+
       return basePrice;
     }
   }, [selected, basePrice, homeServiceFee]);
+  console.log(finalPrice);
+
   const logisticValue = useMemo(() => {
     if (selected) {
       return homeServiceFee;
@@ -132,16 +141,18 @@ const PayItem = ({
       {test?.logistics && (
         <TestItem subTitle="Home Service Fee" title={'₦' + homeServiceFee} />
       )}
-      <Flex justifyContent="space-between" alignItems="center">
-        <Text textColor={'black'} fontFamily={'var(--font-rubik)'}>
-          Accept home service
-        </Text>
-        <Switch
-          colorScheme="green"
-          isChecked={selected}
-          onChange={onToggleHomeService}
-        />
-      </Flex>
+      {test?.logistics && (
+        <Flex justifyContent="space-between" alignItems="center">
+          <Text textColor={'black'} fontFamily={'var(--font-rubik)'}>
+            Accept home service
+          </Text>
+          <Switch
+            colorScheme="green"
+            isChecked={selected}
+            onChange={onToggleHomeService}
+          />
+        </Flex>
+      )}
       <Divider my={5} />
       <TestItem title={`₦${finalPrice}`} subTitle={'Total Price'} />
       <Box mt={3}>
